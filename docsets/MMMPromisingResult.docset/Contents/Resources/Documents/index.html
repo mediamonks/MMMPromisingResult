@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>MMMPromisingResult  Reference</title>
+    <link rel="stylesheet" type="text/css" href="css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="css/highlight.css" />
+    <meta charset="utf-8">
+    <script src="js/jquery.min.js" defer></script>
+    <script src="js/jazzy.js" defer></script>
+    
+    <script src="js/lunr.min.js" defer></script>
+    <script src="js/typeahead.jquery.js" defer></script>
+    <script src="js/jazzy.search.js" defer></script>
+  </head>
+  <body>
+
+
+    <a title="MMMPromisingResult  Reference"></a>
+
+    <header class="header">
+      <a href="https://media.monks.com">
+        <img src="img/logo.png" srcset="img/logo@2x.png 2x" alt="Media.Monks" class="header-logo" />
+      </a>
+    
+      <p class="header-col header-col--primary"></p>
+    
+        <p class="header-col header-col--secondary">
+          <a class="header-link" href="https://github.com/mediamonks/MMMPromisingResult">
+            <img class="header-icon" src="img/gh.png" alt="GitHub"/>
+            View on GitHub
+          </a>
+        </p>
+    
+    </header>
+
+    <p class="breadcrumbs">
+      <a class="breadcrumb" href="index.html">MMMPromisingResult</a>
+      <img class="carat" src="img/carat.png" alt=""/>
+      MMMPromisingResult  Reference
+    </p>
+
+    <div class="content-wrapper">
+      <nav class="navigation">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Classes/PromisingResult.html">PromisingResult</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Classes/PromisingResultSink.html">PromisingResultSink</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Typealiases.html">Type Aliases</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Typealiases.html#/Promising">Promising</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+
+        <section class="section">
+          <div class="section-content top-matter">
+            
+            <h1 id='mmmpromisingresult' class='heading'>MMMPromisingResult</h1>
+
+<p><a href="https://github.com/mediamonks/MMMPromisingResult/actions?query=workflow%3ABuild"><img src="https://github.com/mediamonks/MMMPromisingResult/workflows/Build/badge.svg" alt="Build"></a>
+<a href="https://github.com/mediamonks/MMMPromisingResult/actions?query=workflow%3ATest"><img src="https://github.com/mediamonks/MMMPromisingResult/workflows/Test/badge.svg" alt="Test"></a></p>
+
+<p>A simple promising response for async operations.</p>
+
+<p>(This is a part of <code>MMMTemple</code> suite of iOS libraries we use at <a href="https://www.mediamonks.com/">MediaMonks</a>.)</p>
+<h2 id='installation' class='heading'>Installation</h2>
+
+<p>Podfile:</p>
+<pre class="highlight ruby"><code><span class="n">source</span> <span class="s1">'https://github.com/mediamonks/MMMSpecs.git'</span>
+<span class="n">source</span> <span class="s1">'https://cdn.cocoapods.org/'</span>
+<span class="p">.</span><span class="nf">.</span><span class="p">.</span>
+<span class="nf">pod</span> <span class="s1">'MMMPromisingResult'</span>
+</code></pre>
+
+<p>SPM:</p>
+<pre class="highlight swift"><code><span class="o">.</span><span class="nf">package</span><span class="p">(</span><span class="nv">url</span><span class="p">:</span> <span class="s">"https://github.com/mediamonks/MMMPromisingResult"</span><span class="p">,</span> <span class="o">.</span><span class="nf">upToNextMajor</span><span class="p">(</span><span class="nv">from</span><span class="p">:</span> <span class="s">"0.1.0"</span><span class="p">))</span>
+</code></pre>
+<h2 id='usage' class='heading'>Usage</h2>
+
+<p>A promise-like type using <code>Swift.Result</code> as its value. This part is to be seen by the user code,
+the one that is interested in consumption or transformation of the result, not providing it.</p>
+
+<p>You cannot initialize it directly, see <code><a href="Classes/PromisingResultSink.html">PromisingResultSink</a></code> for the part where the value can 
+be pushed to.</p>
+
+<blockquote>
+<p><strong>Note:</strong> You must keep a reference to this object or the corresponding callback chain will 
+be cancelled.</p>
+</blockquote>
+<h3 id='example' class='heading'>Example</h3>
+<pre class="highlight swift"><code><span class="c1">// Some method that downloads a `URL` and promises to return `Data`.</span>
+<span class="kd">func</span> <span class="nf">download</span><span class="p">(</span><span class="nv">url</span><span class="p">:</span> <span class="kt">URL</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Promising</span><span class="o">&lt;</span><span class="kt">Data</span><span class="o">&gt;</span> <span class="p">{</span>
+
+    <span class="c1">// We open up a sink, we can push results to this.</span>
+    <span class="k">let</span> <span class="nv">sink</span> <span class="o">=</span> <span class="kt">PromisingResultSink</span><span class="o">&lt;</span><span class="kt">Data</span><span class="p">,</span> <span class="kt">Error</span><span class="o">&gt;</span><span class="p">()</span>
+
+    <span class="c1">// Do some sort of async task.</span>
+    <span class="k">let</span> <span class="nv">request</span> <span class="o">=</span> <span class="kt">URLSession</span><span class="o">.</span><span class="n">shared</span><span class="o">.</span><span class="nf">dataTask</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="n">url</span><span class="p">)</span> <span class="p">{</span> <span class="n">data</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">err</span> <span class="k">in</span>
+
+        <span class="k">if</span> <span class="k">let</span> <span class="nv">data</span> <span class="o">=</span> <span class="n">data</span> <span class="p">{</span>
+            <span class="c1">// We succeeded in our async operation.</span>
+            <span class="n">sink</span><span class="o">.</span><span class="nf">push</span><span class="p">(</span><span class="o">.</span><span class="nf">success</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="c1">// We failed</span>
+            <span class="n">sink</span><span class="o">.</span><span class="nf">push</span><span class="p">(</span><span class="o">.</span><span class="nf">failure</span><span class="p">(</span><span class="n">err</span> <span class="p">??</span> <span class="kt">MyError</span><span class="o">.</span><span class="n">noData</span><span class="p">))</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="n">request</span><span class="o">.</span><span class="nf">resume</span><span class="p">()</span>
+
+    <span class="c1">// The `drain` is the user-end of the PromisingResultSink, this is what you would</span>
+    <span class="c1">// expose to users of your class / framework etc.</span>
+    <span class="k">return</span> <span class="n">sink</span><span class="o">.</span><span class="n">drain</span>
+<span class="p">}</span>
+
+<span class="c1">// We have to store the promising result, when it's released it will stop listening.</span>
+<span class="kd">private</span> <span class="k">var</span> <span class="nv">downloadRequest</span><span class="p">:</span> <span class="kt">Promising</span><span class="o">&lt;</span><span class="kt">Data</span><span class="o">&gt;</span><span class="p">?</span>
+
+<span class="kd">func</span> <span class="nf">executeDownload</span><span class="p">()</span> <span class="p">{</span>
+
+    <span class="k">let</span> <span class="nv">url</span> <span class="o">=</span> <span class="kt">URL</span><span class="p">(</span><span class="nv">string</span><span class="p">:</span> <span class="s">"https://google.com"</span><span class="p">)</span><span class="o">!</span>
+
+    <span class="c1">// As mentioned above, we store the request, but attach a completion handler first.</span>
+    <span class="c1">// Have a look at the documentation for more methods on `PromisingResult`.</span>
+    <span class="n">downloadRequest</span> <span class="o">=</span> <span class="nf">download</span><span class="p">(</span><span class="nv">url</span><span class="p">:</span> <span class="n">url</span><span class="p">)</span><span class="o">.</span><span class="n">completion</span> <span class="p">{</span> <span class="n">result</span> <span class="k">in</span>
+        <span class="k">switch</span> <span class="n">result</span> <span class="p">{</span>
+        <span class="k">case</span> <span class="o">.</span><span class="nf">failure</span><span class="p">(</span><span class="k">let</span> <span class="nv">err</span><span class="p">):</span>
+            <span class="nf">print</span><span class="p">(</span><span class="s">"Received error: </span><span class="se">\(</span><span class="n">err</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
+        <span class="k">case</span> <span class="o">.</span><span class="nf">success</span><span class="p">(</span><span class="k">let</span> <span class="nv">data</span><span class="p">):</span>
+            <span class="nf">print</span><span class="p">(</span><span class="s">"Received data: </span><span class="se">\(</span><span class="n">data</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<h2 id='ready-for-liftoff' class='heading'>Ready for liftoff? 🚀</h2>
+
+<p>We&rsquo;re always looking for talent. Join one of the fastest-growing rocket ships in
+the business. Head over to our <a href="https://media.monks.com/careers">careers page</a>
+for more info!</p>
+
+          </div>
+        </section>
+
+
+      </article>
+    </div>
+    <section class="footer">
+      <p>&copy; 2022 <a class="link" href="https://media.monks.com" target="_blank" rel="external noopener">Media.Monks</a>. All rights reserved. (Last updated: 2022-05-18)</p>
+      <p></p>
+    </section>
+  </body>
+</html>
